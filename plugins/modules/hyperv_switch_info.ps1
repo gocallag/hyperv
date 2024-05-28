@@ -1,7 +1,10 @@
 
 #!powershell
-# This file modelled on the template used by by the professionals at https://github.com/ansible-collections/ansible.windows/blob/main/plugins/modules/win_acl.ps1
+# Modelled in https://github.com/ansible-collections/ansible.windows/blob/main/plugins/modules/win_copy.ps1
 # Copyright: (c) 2024, Geoff O'Callaghan <geoffocallaghan@gmail.com>
+# Copyright: (c) 2017, Ansible Project
+
+
 #Requires -Module Ansible.ModuleUtils.Legacy
 
 $ErrorActionPreference = "Stop"
@@ -27,6 +30,6 @@ Catch {
     Fail-Json -obj $result -message "an error occurred when attempting to Get-VMSwitch -name $name - $($_.Exception.Message)"
 }
 Finally {
-    # Make sure we do any cleanup in here
+    # Make sure we do any required cleanup in here
 }
 Exit-Json -obj $result
