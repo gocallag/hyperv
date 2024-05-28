@@ -2,7 +2,7 @@
 #!powershell
 # Modelled in https://github.com/ansible-collections/ansible.windows/blob/main/plugins/modules/win_copy.ps1
 # Copyright: (c) 2024, Geoff O'Callaghan <geoffocallaghan@gmail.com>
-# Copyright: (c) 2017, Ansible Project
+
 
 
 #Requires -Module Ansible.ModuleUtils.Legacy
