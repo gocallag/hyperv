@@ -47,7 +47,6 @@ Function Create_VirtualSwitch {
         Fail-Json -obj $result -message "NetAdapterName is required with switchType External"
       }
       
-      Fail-Json -obj $result -message "$cmd"
       if ($allowManagementOS) {
         $enabled = $true
         if ($allowManagementOS -eq "disabled") {
