@@ -18,9 +18,11 @@ $name = Get-AnsibleParam -obj $params -name "name" -type "str" -failifempty $tru
 
 Try {
 
-    $vswitch = Get-VMSwitch -name $name -ErrorAction SilentlyContinue | ConvertTo-Json -Compress
-    if ($vswitch -ne $null) {
-      $result.cmd="$vswitch"
+    $cmd = "Get-VMSwitch -name $name"
+    $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue | ConvertTo-Json -Compress"
+    if ($output -ne $null) {
+      $result.output=$output
+      $result.cmd_used=$cmd
       $result.changed = $true
      } else {
       $result.changed = $false
