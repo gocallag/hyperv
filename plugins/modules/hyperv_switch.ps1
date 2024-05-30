@@ -38,17 +38,7 @@ Function Create_VirtualSwitch {
         $cmd += " -NetAdapterName '$netAdapterName'"
       }
      
-      if ($allowManagementOS) {
-        $enabled = $true
-        if ($allowManagementOS -eq "disabled") {
-          $enabled = $false
-
-        }
-        $cmd += ' -AllowManagementOS $enabled '
-      }
-  
       $result.changed = $true
-  
       $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
       $result.cmd = $cmd
       $result.output = $output

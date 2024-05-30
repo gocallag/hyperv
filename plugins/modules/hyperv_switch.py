@@ -36,19 +36,6 @@ options:
       - Name of the physical adapter to be used for the Virtual Switch
     required: true
     default: null
-  netAdapterNameDescription:
-    description:
-      - Description of the physical adapter to be used for the Virtual Switch
-    required: false
-    default: null
-  allowManagementOS:
-    description:
-      - Specifies whether the Virtual Switch can be managed by the Hyper-V Management Service. enabled|disabled
-    required: false
-    choices:
-      - enabled
-      - disabled
-    default: disabled
 notes:
 - Does not support check mode
 seealso:
