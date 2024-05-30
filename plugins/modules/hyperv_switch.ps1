@@ -33,16 +33,15 @@ Function Create_VirtualSwitch {
       
       if ($switchType) {
         $cmd += " -SwitchType $switchType"
+        if ($switchType -eq "External" && $netAdapterName -ne $null) {
+          $cmd += " -NetAdapterName '$netAdapterName'"
+        }
+        else {
+          Fail-Json -obj $result -message "NetAdapterName is required with switchType External"
+        }
       }
       
-      if ($netAdapterName) {
-        $cmd += " -NetAdapterName '$netAdapterName'"
-      }
-
-      if ($netAdapterNameDescription) {
-        $cmd += " -NetAdapterNameDescription '$netAdapterNameDescription'"
-      }
-      
+    
       if ($allowManagementOS) {
         $enabled = $true
         if ($allowManagementOS -eq "disabled") {

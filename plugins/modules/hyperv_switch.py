@@ -29,6 +29,7 @@ options:
     choices:
       - Internal
       - Private
+      - External
     default: Internal
   netAdapterName:
     description:
