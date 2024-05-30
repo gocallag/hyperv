@@ -5,11 +5,16 @@
 #Requires -Module Ansible.ModuleUtils.Legacy
 
 Function Delete_VirtualSwitch {
-    $currentSwitch = Get-VMSwitch -name $name -ErrorAction SilentlyContinue
+    $pre_cmd = "Get-VMSwitch -name $name"
+    $currentSwitch = invoke-expression -Command "$pre_cmd -ErrorAction SilentlyContinue"
+    $result.pre_cmd = $pre_cmd
+    $result.pre_output = $currentSwitch
     
     if ($currentSwitch -ne $null) {
       $cmd="Remove-VMSwitch -Name $name -Force"
-      $result.cmd_used = $cmd
+      $output = invoke-expression -Command "$pre_cmd -ErrorAction SilentlyContinue"
+      $result.cmd = $cmd
+      $result.output = $output
       $result.changed = $true
       
       $results = invoke-expression $cmd
