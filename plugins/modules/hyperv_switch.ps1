@@ -36,6 +36,7 @@ Function Create_VirtualSwitch {
         if ($switchType -ne "External") {
            Fail-Json -obj $result -message "switchType External is required with netAdapterName"
         }
+        $switchType = $null // reset to null for External as External isnt a real state for switchType
       }
       if ($switchType) {
         $cmd += " -SwitchType $switchType"
