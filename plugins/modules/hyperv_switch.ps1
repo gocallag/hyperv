@@ -50,7 +50,7 @@ Function Create_VirtualSwitch {
       $result.changed = $true
       
 
-      $results = invoke-expression -Command "$cmd"
+      $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
   
 
     } 
@@ -58,7 +58,8 @@ Function Create_VirtualSwitch {
         $result.changed = $false
     } 
     # Get-VMSwitch and return the data
-    $result.output = Get-VMSwitch -Name "$name" | ConvertTo-Json -Compress
+    $result.output = $output
+    $result.data = Get-VMSwitch -Name "$name" | ConvertTo-Json -Compress
 
 }
 
