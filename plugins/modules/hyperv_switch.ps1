@@ -92,17 +92,11 @@ $netAdapterName = Get-AnsibleParam $params "netAdapterName" -type "str"  -Defaul
 $netAdapterNameDescription = Get-AnsibleParam $params "netAdapterNameDescription" -type "str"  -Default $null
 $allowManagementOS = Get-AnsibleParam $params "allowManagementOS" -type "string" -Default $null
 
-Try {
+
 
     switch ($state) {
         "present" {Create_VirtualSwitch}
         "absent" {Delete_VirtualSwitch}
       }
-}
-Catch {
-    Fail-Json -obj $result -message "an error occurred when attempting to Get-VMSwitch -name $name - $($_.Exception.Message)"
-}
-Finally {
-    # Make sure we do any cleanup in here
-}
+
 Exit-Json -obj $result
