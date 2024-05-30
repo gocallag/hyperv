@@ -47,7 +47,6 @@ Function Create_VirtualSwitch {
         $cmd += ' -AllowManagementOS $enabled '
       }
   
-      $result.cmd_used = $cmd
       $result.changed = $true
   
       $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
