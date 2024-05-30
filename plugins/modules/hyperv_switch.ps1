@@ -31,22 +31,13 @@ Function Create_VirtualSwitch {
       # New switch, build up the command to execute
       $cmd = "New-VMSwitch -Name $name"
   
-      if ($netAdapterName) {
-        if ($switchType -ne "External") {
-           Fail-Json -obj $result -message "switchType External is required with netAdapterName"
-        }
-        $switchType = $null # reset to null for External as External isnt a real state for switchType
-      }
-      if ($switchType) {
+      if ($switchType -ne $null -and $switchType -ne "External" ) {
         $cmd += " -SwitchType $switchType"
       }
-      if ($netAdapterName -ne $null -and $switchType -eq $null ) {
+      if ($netAdapterName -ne $null -and $switchType -eq "External" ) {
         $cmd += " -NetAdapterName '$netAdapterName'"
       }
-      else {
-        Fail-Json -obj $result -message "NetAdapterName is required with switchType External"
-      }
-      
+     
       if ($allowManagementOS) {
         $enabled = $true
         if ($allowManagementOS -eq "disabled") {
@@ -90,9 +81,21 @@ $switchType = Get-AnsibleParam $params "switchType" -type "str" -Default $null
 $netAdapterName = Get-AnsibleParam $params "netAdapterName" -type "str"  -Default $null
 $netAdapterNameDescription = Get-AnsibleParam $params "netAdapterNameDescription" -type "str"  -Default $null
 $allowManagementOS = Get-AnsibleParam $params "allowManagementOS" -type "string" -Default $null
+
+
 switch ($state) {
-    "present" {Create_VirtualSwitch}
-    "absent" {Delete_VirtualSwitch}
+    "present" {
+      if ($netAdapterName -ne $null -and $switchType -ne "External" ) {
+        Fail-Json -obj $result -message "switchType External is required with netAdapterName"
+      }
+      if ($switchType -eq "External" -and $netAdapterName -eq $null ) {
+        Fail-Json -obj $result -message "NetAdapterName is required with switchType External"
+      }
+      Create_VirtualSwitch
+    }
+    "absent" {
+      Delete_VirtualSwitch
+    }
 }
 
 Exit-Json -obj $result
