@@ -19,7 +19,8 @@ Function Delete_VirtualSwitch {
 }
 Function Create_VirtualSwitch {
     #Check If the VirtualSwitch already exists
-    $currentSwitch = Get-VMSwitch -name $name -ErrorAction SilentlyContinue
+    $cmd = "Get-VMSwitch -name $name"
+    $currentSwitch = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
     
     if ($currentSwitch -eq $null) {
       # New switch, build up the command to execute
@@ -56,6 +57,8 @@ Function Create_VirtualSwitch {
     } 
     else {
         $result.changed = $false
+        $result.cmd_used = $cmd
+        $result.output = $currentSwitch
     } 
     # Get-VMSwitch and return the data
     $result.output = $output
