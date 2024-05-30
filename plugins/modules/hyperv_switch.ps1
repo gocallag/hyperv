@@ -1,7 +1,7 @@
 
 #!powershell
-# This file modelled on the template used by by the professionals at https://github.com/ansible-collections/ansible.windows/blob/main/plugins/modules/win_acl.ps1
-# Copyright: (c) 2024, Geoff O'Callaghan <geoffocallaghan@gmail.com>
+# Modelled in https://github.com/ansible-collections/ansible.windows/blob/main/plugins/modules/win_copy.ps1
+# Copyright: (c) 2024, Geoff O'Callaghan <geoffocallaghan@gmail.com>find
 #Requires -Module Ansible.ModuleUtils.Legacy
 
 Function Delete_VirtualSwitch {
@@ -58,7 +58,7 @@ Function Create_VirtualSwitch {
         $result.changed = $false
     } 
     # Get-VMSwitch and return the data
-    $result.json = Get-VMSwitch -Name "$name" | ConvertTo-Json -Compress
+    $result.output = Get-VMSwitch -Name "$name" | ConvertTo-Json -Compress
 
 }
 
