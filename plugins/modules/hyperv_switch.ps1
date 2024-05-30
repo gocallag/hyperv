@@ -49,11 +49,11 @@ Function Create_VirtualSwitch {
   
       $result.cmd_used = $cmd
       $result.changed = $true
-      
-
-      $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
   
-
+      $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
+      $result.cmd = $cmd
+      $result.output = $output
+  
     } 
     else {
         $result.changed = $false
@@ -61,8 +61,7 @@ Function Create_VirtualSwitch {
     # Get-VMSwitch and return the data
     $result.pre_cmd = $pre_cmd
     $result.pre_output = $currentSwitch
-    $result.data = Get-VMSwitch -Name "$name" | ConvertTo-Json -Compress
-
+    
 }
 
 $ErrorActionPreference = "Stop"
