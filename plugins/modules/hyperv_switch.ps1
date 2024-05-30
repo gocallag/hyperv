@@ -73,7 +73,6 @@ $result = @{
 $params = Parse-Args $args -supports_check_mode $false
 $result = @{
   changed = $false
-  cmd_used = ""
 }
 
 $name = Get-AnsibleParam $params "name" -type "str" -FailIfEmpty $true 
