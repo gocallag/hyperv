@@ -91,12 +91,9 @@ $switchType = Get-AnsibleParam $params "switchType" -type "str" -Default $null
 $netAdapterName = Get-AnsibleParam $params "netAdapterName" -type "str"  -Default $null
 $netAdapterNameDescription = Get-AnsibleParam $params "netAdapterNameDescription" -type "str"  -Default $null
 $allowManagementOS = Get-AnsibleParam $params "allowManagementOS" -type "string" -Default $null
-
-
-
-    switch ($state) {
-        "present" {Create_VirtualSwitch}
-        "absent" {Delete_VirtualSwitch}
-      }
+switch ($state) {
+    "present" {Create_VirtualSwitch}
+    "absent" {Delete_VirtualSwitch}
+}
 
 Exit-Json -obj $result
