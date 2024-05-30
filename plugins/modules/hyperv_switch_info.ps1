@@ -19,14 +19,10 @@ $name = Get-AnsibleParam -obj $params -name "name" -type "str" -failifempty $tru
 Try {
 
     $cmd = "Get-VMSwitch -name $name"
-    $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue | ConvertTo-Json -Compress"
-    if ($output -ne $null) {
-      $result.output=$output
-      $result.cmd_used=$cmd
-      $result.changed = $true
-     } else {
-      $result.changed = $false
-    }
+    $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
+    $result.cmd=$cmd
+    $result.output=$output
+    $result.changed = $false
 }
 Catch {
     Fail-Json -obj $result -message "an error occurred when attempting to Get-VMSwitch -name $name - $($_.Exception.Message)"
