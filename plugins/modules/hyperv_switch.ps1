@@ -30,8 +30,7 @@ Function Create_VirtualSwitch {
     if ($currentSwitch -eq $null) {
       # New switch, build up the command to execute
       $cmd = "New-VMSwitch -Name $name"
-      
-
+  
       if ($netAdapterName) {
         if ($switchType -ne "External") {
            Fail-Json -obj $result -message "switchType External is required with netAdapterName"
@@ -48,7 +47,7 @@ Function Create_VirtualSwitch {
         }
       }
       
-    
+      Fail-Json -obj $result -message "$cmd"
       if ($allowManagementOS) {
         $enabled = $true
         if ($allowManagementOS -eq "disabled") {
