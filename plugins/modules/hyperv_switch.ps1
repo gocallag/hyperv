@@ -38,7 +38,7 @@ Function Create_VirtualSwitch {
         $cmd += " -NetAdapterName '$netAdapterName'"
       }
       if ($null -ne $netAdapterName -and $null -ne $allowManagementOS) {
-        if ($allowManagementOS) {
+        if ($allowManagementOS == "true") {
             $flag = '$true'
             $cmd += " -AllowManagementOS $flag"
         }
