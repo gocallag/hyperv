@@ -70,9 +70,7 @@ $result = @{
 
 $name = Get-AnsibleParam $params "name" -type "str" -FailIfEmpty $true 
 $state = Get-AnsibleParam $params "state" -type "str" -FailIfEmpty $true 
-$switchType =       if ($netAdapterName -ne $null -and $switchType -eq "External" ) {
-  $cmd += " -NetAdapterName '$netAdapterName'"
-} $params "switchType" -type "str" -Default $null
+$switchType = Get-AnsibleParam $params "switchType" -type "str" -Default $null
 $netAdapterName = Get-AnsibleParam $params "netAdapterName" -type "str"  -Default $null
 $netAdapterNameDescription = Get-AnsibleParam $params "netAdapterNameDescription" -type "str"  -Default $null
 $allowManagementOS = Get-AnsibleParam $params "allowManagementOS" -type "bool" -Default $null
