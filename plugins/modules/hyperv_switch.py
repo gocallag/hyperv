@@ -36,6 +36,11 @@ options:
       - Name of the physical adapter to be used for the Virtual Switch
     required: true
     default: null
+  allowManagementOS:
+    description:
+      - Specifies whether the parent partition (i.e. the management operating system) is to have access to the physical NIC bound to the virtual switch to be createdName of the physical adapter to be used for the Virtual Switch
+    required: false
+    default: null  
 notes:
 - Does not support check mode
 seealso:

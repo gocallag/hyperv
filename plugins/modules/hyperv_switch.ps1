@@ -37,6 +37,9 @@ Function Create_VirtualSwitch {
       if ($netAdapterName -ne $null -and $switchType -eq "External" ) {
         $cmd += " -NetAdapterName '$netAdapterName'"
       }
+      if ($netAdapterName -ne $null -and $allowManagementOS -ne $null ) {
+        $cmd += " -AllowManagementOS $allowManagementOS"
+      }
      
       $result.changed = $true
       $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
@@ -77,6 +80,9 @@ switch ($state) {
     "present" {
       if ($netAdapterName -ne $null -and $switchType -ne "External" ) {
         Fail-Json -obj $result -message "switchType External is required with netAdapterName"
+      }
+      if ($netAdapterName -eq $null -and $allowManagementOS -ne $null ) {
+        Fail-Json -obj $result -message "netAdapterName is required with allowManagementOS"
       }
       if ($switchType -eq "External" -and $netAdapterName -eq $null ) {
         Fail-Json -obj $result -message "NetAdapterName is required with switchType External"
