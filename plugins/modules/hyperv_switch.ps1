@@ -39,10 +39,10 @@ Function Create_VirtualSwitch {
       }
       if ($netAdapterName -ne $null -and $allowManagementOS -ne $null ) {
         if ($allowManagementOS) {
-            $cmd += " -AllowManagementOS "+$true
+            $cmd += " -AllowManagementOS \$True"
         }
         else {
-          $cmd += " -AllowManagementOS "+$false
+          $cmd += " -AllowManagementOS \$False"
         }
       }
       Fail-Json -obj $result -message "$cmd"
