@@ -12,12 +12,11 @@ Function Delete_VirtualSwitch {
     
     if ($null -ne $currentSwitch) {
       $cmd="Remove-VMSwitch -Name $name -Force"
-      $output = invoke-expression -Command "$pre_cmd -ErrorAction SilentlyContinue"
+      $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
       $result.cmd = $cmd
       $result.output = $output
       $result.changed = $true
-      
-      $results = invoke-expression $cmd
+
     } else {
       $result.changed = $false
     }
