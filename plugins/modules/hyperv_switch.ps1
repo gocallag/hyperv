@@ -47,7 +47,7 @@ Function Create_VirtualSwitch {
           $cmd += " -AllowManagementOS $flag"
         }
       }
-      Fail-Json -obj $result -message "$cmd"
+      
       $result.changed = $true
       $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
       $result.cmd = $cmd
