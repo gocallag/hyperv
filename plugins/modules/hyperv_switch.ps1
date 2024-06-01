@@ -78,7 +78,6 @@ $name = Get-AnsibleParam $params "name" -type "str" -FailIfEmpty $true
 $state = Get-AnsibleParam $params "state" -type "str" -FailIfEmpty $true 
 $switchType = Get-AnsibleParam $params "switchType" -type "str" -Default $null
 $netAdapterName = Get-AnsibleParam $params "netAdapterName" -type "str"  -Default $null
-$netAdapterNameDescription = Get-AnsibleParam $params "netAdapterNameDescription" -type "str"  -Default $null
 $allowManagementOS = Get-AnsibleParam $params "allowManagementOS" -type "str" -Default $null
 
 
