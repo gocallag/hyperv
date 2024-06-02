@@ -57,8 +57,8 @@ Working functional playbook examples can be found in the **[`molecule/`](https:/
 
 | Name | Description |
 | ---- | ----------- |
-| **[`switch/converge.yml`](https://github.com/gocallag/hyperv/blob/main/molecule/switch/converge.yml)** | Create and manage a Hyper-V vswitch |
-| **[`vm/converge.yml`](https://github.com/gocallag/hyperv/blob/main/molecule/vm/converge.yml)** | Create and delete a Hyper-V VM |
+| **[`switch/converge.yml`](https://github.com/gocallag/hyperv/blob/main/molecule/switch/converge.yml)** | Create a Hyper-V vswitch |
+| **[`vm/converge.yml`](https://github.com/gocallag/hyperv/blob/main/molecule/vm/converge.yml)** | Create a Hyper-V VM |
 
 
 ## License
