@@ -21,16 +21,16 @@ This collection can be installed via either Ansible Galaxy (the Ansible communit
 
 ### Ansible Galaxy
 
-To install the latest stable release of the role on your system, use:
+To install the latest stable release of the collection on your system, use:
 
 ```bash
-ansible-galaxy install gocallag.hyperv
+ansible-galaxy collection install gocallag.hyperv
 ```
 
 Alternatively, if you have already installed the role, you can update the role to the latest release by using:
 
 ```bash
-ansible-galaxy install -f gocallag.hyperv
+ansible-galaxy collection install -f gocallag.hyperv
 ```
 
 As the collection provides a range of modules you will need to include them as appropriate in your playbook:
