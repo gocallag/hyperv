@@ -7,7 +7,7 @@
 
 This collection provides a range of modules for managing Hyper-V hosts and VM's etc that run on those hosts.
 
-**Note:** This role is still in active development. There may be unidentified issues and the role variables may change as development continues.
+**Note:** This collection is still in active development. There may be unidentified issues and various variables may change as development continues.
 
 ## Requirements
 
