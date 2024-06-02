@@ -1,6 +1,5 @@
 # Ansible Collection - gocallag.hyperv
 
-[![Ansible Galaxy](https://galaxy.ansible.com/gocallag/hyper-v)]
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
@@ -18,7 +17,7 @@ This collection provides a range of modules for managing Hyper-V hosts and VM's 
 
 ## Installation
 
-This collection can be installed via either Ansible Galaxy (the Ansible community marketplace) or by cloning this repo. 
+This collection can be installed via either Ansible Galaxy (the Ansible community marketplace) at (https://galaxy.ansible.com/gocallag/hyper-v) or by cloning this repo. 
 
 ### Ansible Galaxy
 
