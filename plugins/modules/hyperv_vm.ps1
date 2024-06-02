@@ -57,7 +57,7 @@ Function Create_VirtualMachine {
   $result.cmd = $cmd
   $result.changed = $true
     
-  invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
+  invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"  # note: saving the output of this IE leads to an infinite loop [BUG] somewhere
   
 }
 
