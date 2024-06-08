@@ -9,13 +9,14 @@
     ansible_winrm_server_cert_validation: ignore
   
   tasks:
-    - name: Create VM LAB-Test 
-      gocallag.hyperv.vm:
-        name: LAB-Test
-        state: present
-      register: output
     - name: Get information about VM
       gocallag.hyperv.vm_info:
-        name: LAB-Test
-      register: output
-    - debug: msg="{{ output }}"
+        names:
+         - LAB-Test
+      register: info
+
+    - name: Collect information about a specific VM, 2nd in list
+      gocallag.hyperv.vm_info:
+        id: '{{ info.output.value[1].Id }}'
+      register: myvm
+    - debug: msg="{{ myvm }}"
