@@ -1,0 +1,17 @@
+---
+- name: Cleanup
+  hosts: all
+  vars:
+    ansible_connection: winrm
+    ansible_port: 5986
+    ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
+    ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
+    ansible_winrm_server_cert_validation: ignore
+  
+  tasks:
+    - name: Delete VM
+      gocallag.hyperv.vm:
+        name: LAB-Test
+        state: absent
+      register: output
+    - debug: msg="{{ output }}"

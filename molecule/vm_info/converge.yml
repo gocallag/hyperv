@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    ansible_connection: winrm
+    ansible_port: 5986
+    ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
+    ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
+    ansible_winrm_server_cert_validation: ignore
+  
+  tasks:
+    - name: Create VM LAB-Test 
+      gocallag.hyperv.vm:
+        name: LAB-Test
+        state: present
+      register: output
+    - name: Get information about VM
+      gocallag.hyperv.vm_info:
+        name: LAB-Test
+      register: output
+    - debug: msg="{{ output }}"
