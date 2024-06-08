@@ -10,7 +10,7 @@
   
   tasks:
     - name: Delete switch
-      gocallag.hyperv.hyperv_switch:
+      gocallag.hyperv.switch:
         name: LAB-Test
         state: absent
       register: output

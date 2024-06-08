@@ -10,7 +10,7 @@
   
   tasks:
     - name: Create switch LAB-Test that is bridged to Adapter "Ethernet"
-      gocallag.hyperv.hyperv_switch:
+      gocallag.hyperv.switch:
         name: LAB-Test
         netAdapterName: "Ethernet"
         switchType: External
