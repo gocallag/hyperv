@@ -37,7 +37,7 @@ As the collection provides a range of modules you will need to include them as a
 
 ```yaml
 - name: Create VM
-  gocallag.hyperv.hyperv_vm:
+  gocallag.hyperv.vm:
     name: TEST01
 ```
 
