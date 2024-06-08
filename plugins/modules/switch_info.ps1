@@ -1,11 +1,12 @@
 
 #!powershell
-# Modelled in https://github.com/ansible-collections/ansible.windows/blob/main/plugins/modules/win_copy.ps1
+# Re-worked based on best practices at https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general_windows.html
 # Copyright: (c) 2024, Geoff O'Callaghan <geoffocallaghan@gmail.com>
 
-
-
 #Requires -Module Ansible.ModuleUtils.Legacy
+#AnsibleRequires -CSharpUtil Ansible.Basic
+
+Set-StrictMode -Version 2.0
 
 $ErrorActionPreference = "Stop"
 
@@ -22,7 +23,6 @@ Try {
     $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
     $result.cmd=$cmd
     $result.output=$output
-    $result.changed = $false
 }
 Catch {
     Fail-Json -obj $result -message "an error occurred when attempting to Get-VMSwitch -name $name - $($_.Exception.Message)"
