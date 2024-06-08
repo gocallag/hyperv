@@ -60,7 +60,8 @@ Function Create_VirtualMachine {
   $result.cmd = $cmd
   $result.changed = $true
     
-  invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"  # note: saving the output of this IE leads to an infinite loop [BUG] somewhere
+  $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"  
+  $result.output = $output | ConvertTo-Json | ConvertFrom-Json # this is done to avoid loop in Exit-Json
   
 }
 
