@@ -15,12 +15,14 @@ $result = @{
 }
 
 $params = Parse-Args -arguments $args -supports_check_mode $false
-$name = Get-AnsibleParam -obj $params -name "name" -type "str" -failifempty $false
+$name = Get-AnsibleParam -obj $params -name "names" -aliases "filter_names" -type "list" -failifempty $false
 $id = Get-AnsibleParam -obj $params -name "id" -type "str" -failifempty $false
 
+$vmnames = $($name -join ',')
+
 $cmd = ""
-if ( $null -ne $name ) {
-  $cmd = "Get-VM -Name $name | Select-Object *"
+if ( $null -ne $vmnames ) {
+  $cmd = "Get-VM -Name $vmnames | Select-Object *"
 }
 if ( $null -ne $id ) {   # id takes precedence
   $cmd = "Get-VM -Id $id | Select-Object *"
