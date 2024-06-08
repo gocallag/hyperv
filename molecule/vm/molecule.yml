@@ -1,0 +1,43 @@
+---
+driver:
+  name: default
+platforms:
+  - name: ${INSTANCE_TESTHOST}
+provisioner:
+  name: ansible
+scenario:
+  create_sequence:
+    - dependency
+    - create
+    - prepare
+  check_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - create
+    - prepare
+    - converge
+    - check
+    - destroy
+  converge_sequence:
+    - dependency
+    - create
+    - prepare
+    - converge
+  destroy_sequence:
+    - dependency
+    - cleanup
+    - destroy
+  test_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    # - idempotence # turned off as hyper-v allows multiple VM's with the same names anyway :-(
+    - side_effect
+    - verify
+    - cleanup
+    - destroy

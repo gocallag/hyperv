@@ -26,7 +26,7 @@ Function Delete_VirtualMachine {
 }
 
 Function Create_VirtualMachine {
-  $cmd = "New-VM -Name '$name'"
+  $cmd = "New-VM -Name '$name'"   # Things to note - hyper-v allows duplicate names of VM's
 
   if ($memory) {
     $cmd = $cmd + " -MemoryStartupBytes $memory"
