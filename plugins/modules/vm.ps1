@@ -7,16 +7,16 @@
 
 Set-StrictMode -Version 2.0
 Function Delete_VirtualMachine {
-  $pre_cmd = "Get-VM -name '$name'"
-  $currentvm = invoke-expression -Command "$pre_cmd -ErrorAction SilentlyContinue"
+  $pre_cmd = "Get-VM -name '$name' -ErrorAction SilentlyContinue | select-object *"
+  $currentvm = invoke-expression -Command "$pre_cmd "
   $result.pre_cmd = $pre_cmd
-  $result.pre_output = $currentvm
+  $result.pre_output = $currentvm | ConvertTo-Json | ConvertFrom-Json
     
   if ($null -ne $currentvm) {
-    $cmd = "Remove-VM -Name $name -Force"
+    $cmd = "Stop-VM -Name $name -Force ; Remove-VM -Name $name -Force"
     $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
     $result.cmd = $cmd
-    $result.output = $output
+    $result.output = $output | ConvertTo-Json | ConvertFrom-Json
     $result.changed = $true
 
   }

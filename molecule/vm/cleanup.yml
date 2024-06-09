@@ -9,7 +9,7 @@
     ansible_winrm_server_cert_validation: ignore
   
   tasks:
-    - name: Delete test VM
+    - name: Delete test VM  # Note: this will delete ALL VM's called LAB-Test, including powered-on VM's
       gocallag.hyperv.vm:
         name: LAB-Test
         state: absent
