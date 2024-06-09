@@ -1,5 +1,5 @@
 ---
-- name: Converge
+- name: Cleanup
   hosts: all
   vars:
     ansible_connection: winrm
@@ -9,4 +9,7 @@
     ansible_winrm_server_cert_validation: ignore
   
   tasks:
-
+    - name: Delete switch
+      gocallag.hyperv.switch:
+        name: LAB-Test
+        state: absent

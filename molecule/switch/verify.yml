@@ -1,5 +1,5 @@
 ---
-- name: Converge
+- name: Verify
   hosts: all
   vars:
     ansible_connection: winrm
@@ -9,4 +9,3 @@
     ansible_winrm_server_cert_validation: ignore
   
   tasks:
-
