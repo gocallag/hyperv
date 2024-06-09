@@ -1,0 +1,25 @@
+---
+- name: Create (& Verify)
+  hosts: all
+  vars:
+    ansible_connection: winrm
+    ansible_port: 5986
+    ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
+    ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
+    ansible_winrm_server_cert_validation: ignore
+  
+  tasks:
+    - name: Create simple test-VM
+      gocallag.hyperv.vm:
+        name: LAB-Test
+        state: present
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Id is defined
+        - info.output.Name is defined and info.output.Name == "LAB-Test"
+        - info.output.Status is defined and info.output.Status == "Operating normally"
+        - info.cmd is defined and info.cmd == "New-VM -Name 'LAB-Test' -NoVHD  -Generation 1"
+
