@@ -14,9 +14,22 @@
         names:
          - LAB-Test
       register: info
+    - debug: msg="{{ info }}"
 
     - name: Collect information about a specific VM, 2nd in list
       gocallag.hyperv.vm_info:
         id: '{{ info.output.value[1].Id }}'
+      register: myvm
+    - debug: msg="{{ myvm }}"
+
+    - name: Get information about VM
+      gocallag.hyperv.vm_info:
+        power_state: 'Running'
+      register: info
+    - debug: msg="{{ info }}"
+
+    - name: Collect information about a specific VM, 1st in list
+      gocallag.hyperv.vm_info:
+        id: '{{ info.output.value[0].Id }}'
       register: myvm
     - debug: msg="{{ myvm }}"
