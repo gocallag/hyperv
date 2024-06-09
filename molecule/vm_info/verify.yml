@@ -1,0 +1,55 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    ansible_connection: winrm
+    ansible_port: 5986
+    ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
+    ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
+    ansible_winrm_server_cert_validation: ignore
+  
+  tasks:
+    - name: Get information about VM
+      gocallag.hyperv.vm_info:
+        names:
+         - LAB-Test
+      register: info
+
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Count is defined and info.output.Count == 2
+        - info.output.value is defined
+        - info.output.value[0].Id is defined
+        - info.output.value[1].Id is defined
+        - info.output.value[0].VMName == "LAB-Test"
+        - info.output.value[1].VMName == "LAB-Test"
+
+    - name: Get information about the VM called LAB-Test that is 'Running'
+      gocallag.hyperv.vm_info:
+        names:
+         - LAB-Test
+        power_state: 'Running'
+      register: info
+    - debug: msg="{{ info }}"
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Count is defined and info.output.Count == 1
+        - info.output.value is defined
+        - info.output.value[0].Id is defined
+        - info.output.value[0].VMName == "LAB-Test"
+ 
+    - name: Collect information about a specific VM, 1st in list
+      gocallag.hyperv.vm_info:
+        id: '{{ info.output.value[0].Id }}'
+      register: myvm
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.value is defined
+        - info.output.value.Id is defined
+        - info.output.value.VMName == "LAB-Test"

@@ -14,4 +14,3 @@
         name: LAB-Test
         state: absent
       register: output
-    - debug: msg="{{ output }}"
