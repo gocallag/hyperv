@@ -20,6 +20,10 @@ options:
         - If unset or empty, virtual machines with any name match the filter.
         elements: str
         type: list
+    power_state:
+        description:
+        - Virtual machines that are in the listed power state.
+        type: str
     id:
         description:
         - Get the information for a Hyper-V VM with a specific VMId.
@@ -37,6 +41,17 @@ EXAMPLES = r'''
   gocallag.hyperv.vm_info:
     names: 
      - LAB-Test
+  register: info
+
+- name: Print out the results
+  debug:
+    msg: "{{ info }}"
+
+
+- name: Get hyperv VM information for VM's that are powered-on
+  gocallag.hyperv.vm_info:
+    power_states: 
+     - On
   register: info
 
 - name: Print out the results
