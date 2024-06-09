@@ -1,5 +1,5 @@
 ---
-- name: Cleanup
+- name: Verify
   hosts: all
   vars:
     ansible_connection: winrm
@@ -9,7 +9,13 @@
     ansible_winrm_server_cert_validation: ignore
   
   tasks:
-    - name: Delete switch
-      gocallag.hyperv.switch:
+    - name: Get information about switch
+      gocallag.hyperv.switch_info:
         name: LAB-Test
-        state: absent
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Id is defined
+        - info.output.Name is defined and info.output.Name == "LAB-Test"
