@@ -1,5 +1,5 @@
 ---
-- name: Cleanup
+- name: Create
   hosts: all
   vars:
     ansible_connection: winrm
@@ -9,9 +9,12 @@
     ansible_winrm_server_cert_validation: ignore
   
   tasks:
-    - name: Delete VM
-      gocallag.hyperv.vm:  # this will delete all VM's called LAB-Test, there can be multiple in Hyper-V
+    - name: Create VM LAB-Test 
+      gocallag.hyperv.vm:
         name: LAB-Test
-        state: absent
-      register: output
-    - debug: msg="{{ output }}"
+        state: present
+    - name: Create VM LAB-Test - same name
+      gocallag.hyperv.vm:
+        name: LAB-Test
+        state: present
+
