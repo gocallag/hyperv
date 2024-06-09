@@ -1,5 +1,5 @@
 ---
-- name: Converge
+- name: Create
   hosts: all
   vars:
     ansible_connection: winrm
@@ -9,4 +9,12 @@
     ansible_winrm_server_cert_validation: ignore
   
   tasks:
+    - name: Create switch LAB-Test that is bridged to Adapter "Ethernet"
+      gocallag.hyperv.switch:
+        name: LAB-Test
+        netAdapterName: "Ethernet"
+        switchType: External
+        allowManagementOS: false
+        state: present
+
 
