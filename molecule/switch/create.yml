@@ -1,0 +1,29 @@
+---
+- name: Converge (& Verify)
+  hosts: all
+  vars:
+    ansible_connection: winrm
+    ansible_port: 5986
+    ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
+    ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
+    ansible_winrm_server_cert_validation: ignore
+  
+  tasks:
+    - name: Create switch LAB-Test that is bridged to Adapter "Ethernet"
+      gocallag.hyperv.switch:
+        name: LAB-Test
+        netAdapterName: "Ethernet"
+        switchType: External
+        allowManagementOS: false
+        state: present
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Id is defined
+        - info.output.Name is defined and info.output.Name == "LAB-Test"
+        - info.output.SwitchType == 2
+        - info.output.AllowManagementOS is false
+        - info.cmd is defined and info.cmd == "New-VMSwitch -Name LAB-Test -NetAdapterName 'Ethernet' -AllowManagementOS $false"
+
