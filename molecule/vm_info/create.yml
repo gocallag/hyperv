@@ -1,6 +1,7 @@
 ---
 - name: Create
   hosts: all
+  gather_facts: false
   vars:
     ansible_connection: winrm
     ansible_port: 5986

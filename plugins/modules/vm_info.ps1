@@ -59,7 +59,25 @@ Try {
 
   $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"
   $result.cmd = $cmd
-  $result.output = $output | ConvertTo-Json | ConvertFrom-Json  # note this has to be done otherwise we will hang in Exit-Json
+  $output = $output | ConvertTo-Json | ConvertFrom-Json  # note this has to be done otherwise we will hang in Exit-Json
+  # $result.output = $output
+  if ( $null -eq $output ) {
+    $result.output = @{ "Count" = 0 
+                        "value" = @() 
+    }
+  }
+  else {
+    Try {
+      if ( $output.Count -gt 0 ) {   # if there is a Count then set the result as expected, else the Catch will trigger and convert the non-list to a list with 1 element
+          $result.output = $output
+      }    
+    }
+    Catch {
+      $result.output = @{ "Count" = 1 
+                        "value" = @($output) }
+    }
+
+  }
 }
 Catch {
   Fail-Json -obj $result -message "an error occurred when attempting to Get-VM - $($_.Exception.Message)"
