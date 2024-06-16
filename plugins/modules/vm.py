@@ -40,6 +40,11 @@ options:
       - Memory for VM
     require: false
     default: null
+  generation:
+    description:
+      - What generation VM to create? 1 or 2?
+    require: false
+    default: 1
 '''
 EXAMPLES = r'''
 '''
