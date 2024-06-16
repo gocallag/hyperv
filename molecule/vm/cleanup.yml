@@ -14,3 +14,8 @@
         name: LAB-Test
         state: absent
       register: output
+    - name: Delete test VM - G2
+      gocallag.hyperv.vm:
+        name: LAB-Test-G2
+        state: absent
+      register: output
