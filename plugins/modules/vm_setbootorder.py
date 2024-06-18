@@ -7,44 +7,20 @@
 
 DOCUMENTATION = r'''
 ---
-module: vm
-short_description: Create/Delete Hyper-V based Virtual Machines.
+module: vm_setbootorder
+short_description: Set the boot order on a VM
 description:
-    - Create/Delete Hyper-V based Virtual Machines.
+    - Set the boot order on a Hyper-V Virtual Machine
 options:
-  name:
+  id:
     description:
-      - Name of VM
+      - VMId of VM
     require: true
-  state:
+  order:
     description:
-      - State of VM
-    require: false
-    choices:
-      - present
-      - absent
-    default: null
-  VHDPath:
-    description:
-      - Specify path of VHD/VHDX file for the new VM. If the file already exists then it will be attached to the VM, if not then a new one will be created with size VHDSize
-      - If no VHDPath is specified then the VM is created with -NoVHD
-    require: false
-    default: null
-  VHDSize:
-    description:
-      - Specify the size of any new VHDX file 
-    require: false
-    default: null
-  memory:
-    description:
-      - Memory for VM
-    require: false
-    default: null
-  generation:
-    description:
-      - What generation VM to create? 1 or 2?
-    require: false
-    default: 1
+      - List of devices (and the order) to boot
+    require: true
+
 '''
 EXAMPLES = r'''
 '''
