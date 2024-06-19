@@ -1,0 +1,69 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars:
+    ansible_connection: winrm
+    ansible_port: 5986
+    ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
+    ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
+    ansible_winrm_server_cert_validation: ignore
+  
+  tasks:
+    - name: Get information about VM G1
+      gocallag.hyperv.vm_info:
+        names:
+         - LAB-Test-G1
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Count is defined and info.output.Count == 1
+        - info.output.value is defined
+        - info.output.value[0].Id is defined
+        - info.output.value[0].VMName == "LAB-Test-G1"
+        - info.output.value[0].Generation == 1
+    - name: add iso to gen 1
+      gocallag.hyperv.vm_dvddrive:   
+        id: '{{ info.output.value[0].Id }}'
+        path: c:\temp\test.iso
+        state: present
+      register: check
+    - pause:
+    - name: remove iso from gen 1
+      gocallag.hyperv.vm_dvddrive:   
+        id: '{{ info.output.value[0].Id }}'
+        path: c:\temp\test.iso
+        state: absent
+      register: check
+
+    - name: Get information about VM G2
+      gocallag.hyperv.vm_info:
+        names:
+         - LAB-Test-G2
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Count is defined and info.output.Count == 1
+        - info.output.value is defined
+        - info.output.value[0].Id is defined
+        - info.output.value[0].VMName == "LAB-Test-G2"
+        - info.output.value[0].Generation == 2
+    - name: add iso to gen 2
+      gocallag.hyperv.vm_dvddrive:   
+        id: '{{ info.output.value[0].Id }}'
+        path: c:\temp\test.iso
+        state: present
+      register: check
+    - debug: msg="{{ check }}"
+    - pause:
+    - name: remove dvddrive from gen 2
+      gocallag.hyperv.vm_dvddrive:   
+        id: '{{ info.output.value[0].Id }}'
+        path: c:\temp\test.iso
+        state: absent
+      register: check
+
