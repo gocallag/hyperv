@@ -1,6 +1,7 @@
 ---
 - name: Cleanup
   hosts: all
+  gather_facts: false
   vars:
     ansible_connection: winrm
     ansible_port: 5986
@@ -9,13 +10,13 @@
     ansible_winrm_server_cert_validation: ignore
   
   tasks:
-    - name: Delete test VM  # Note: this will delete ALL VM's called LAB-Test, including powered-on VM's
-      gocallag.hyperv.vm:
-        name: LAB-Test
+    - name: Delete VM Gen 1
+      gocallag.hyperv.vm:  
+        name: LAB-Test-G1
         state: absent
       register: output
-    - name: Delete test VM - G2
-      gocallag.hyperv.vm:
+    - name: Delete VM Gen 2
+      gocallag.hyperv.vm:  
         name: LAB-Test-G2
         state: absent
       register: output

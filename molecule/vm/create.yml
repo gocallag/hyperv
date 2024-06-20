@@ -23,3 +23,17 @@
         - info.output.Status is defined and info.output.Status == "Operating normally"
         - info.cmd is defined and info.cmd == "New-VM -Name 'LAB-Test' -NoVHD  -Generation 1"
 
+    - name: Create simple test-VM - Gen 2
+      gocallag.hyperv.vm:
+        name: LAB-Test-G2
+        state: present
+        generation: 2
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Id is defined
+        - info.output.Name is defined and info.output.Name == "LAB-Test-G2"
+        - info.output.Status is defined and info.output.Status == "Operating normally"
+        - info.cmd is defined and info.cmd == "New-VM -Name 'LAB-Test-G2' -NoVHD  -Generation 2"
