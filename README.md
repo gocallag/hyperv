@@ -66,6 +66,23 @@ Working functional playbook examples can be found in the **[`molecule/`](https:/
 | **[`power on/off vm`](https://github.com/gocallag/hyperv/blob/main/molecule/vm_power/verify.yml)** | Power On/Off VM |
 
 
+## Tesing with Molecule
+
+In order to test locally using molecule you will need a target vm running Windows server with Hyper-V enabled/working. 
+
+You will need to set the following environment variables
+
+```
+export INSTANCE_TESTHOST=<name/ip of your test host>
+export INSTANCE_TESTHOST_USERID=<userid, typically Administrator>
+export INSTANCE_TESTHOST_PASSWORD=<password for the above userid>
+```
+Then it's a simple case of 
+```
+cd hyperv
+molecule test -s vm_disk    # or similar
+
+```
 ## License
 
 [Apache License, Version 2.0](https://github.com/nginxinc/ansible-role-nginx/blob/main/LICENSE)
