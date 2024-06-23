@@ -24,6 +24,11 @@ options:
       - present
       - absent
     default: null
+  duplicate:
+    description:
+    - Allow duplicate VM names
+    required: false
+    default: false
   VHDPath:
     description:
       - Specify path of VHD/VHDX file for the new VM. If the file already exists then it will be attached to the VM, if not then a new one will be created with size VHDSize

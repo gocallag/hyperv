@@ -1,6 +1,7 @@
 ---
 - name: Verify
   hosts: all
+  gather_facts: false
   vars:
     ansible_connection: winrm
     ansible_port: 5986
@@ -9,3 +10,23 @@
     ansible_winrm_server_cert_validation: ignore
   
   tasks:
+
+    - name: Create simple test-VM - this should not create a new vm - ie changed = false
+      gocallag.hyperv.vm:
+        name: LAB-Test
+        state: present
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.changed == false
+    - name: Create simple test-VM - this should create a new vm - ie changed = true
+      gocallag.hyperv.vm:
+        name: LAB-Test
+        duplicate: true
+        state: present
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.changed == true
