@@ -26,6 +26,7 @@ Function Delete_VirtualMachine {
 }
 
 Function Create_VirtualMachine {
+
   $cmd = "New-VM -Name '$name'"   # Things to note - hyper-v allows duplicate names of VM's
 
   if ($memory) {
@@ -54,14 +55,15 @@ Function Create_VirtualMachine {
 
   if ($generation) {
     $cmd = $cmd + " -Generation $generation"
+
   }
-
-
+  $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"  
+  $result.output = $output | ConvertTo-Json | ConvertFrom-Json # this is done to avoid loop in Exit-Json (excessive json depth)
   $result.cmd = $cmd
   $result.changed = $true
-    
-  $output = invoke-expression -Command "$cmd -ErrorAction SilentlyContinue"  
-  $result.output = $output | ConvertTo-Json | ConvertFrom-Json # this is done to avoid loop in Exit-Json
+
+
+ 
   
 }
 
@@ -81,12 +83,20 @@ $memory = Get-AnsibleParam $params "memory" -type "str" -Default $null
 $generation = Get-AnsibleParam $params "generation" -type "int" -Default "1"
 $VHDPath = Get-AnsibleParam $params "VHDPath" -type "str" -Default $null
 $VHDSize = Get-AnsibleParam $params "VHDSize" -type "str"  -Default $null
-
+$duplicate = Get-AnsibleParam $params "duplicate" -type "bool"  -Default $false
 
 
 switch ($state) {
   "present" {
-    Create_VirtualMachine
+    
+    $pre_cmd = "Get-VM -name '$name' -ErrorAction SilentlyContinue | select-object *"
+    $currentvm = invoke-expression -Command "$pre_cmd "
+    if ($null -ne $currentvm -and $true -ne $duplicate) {
+      $result.changed = $false
+    }
+    else {
+      Create_VirtualMachine
+    }
   }
   "absent" {
     Delete_VirtualMachine
