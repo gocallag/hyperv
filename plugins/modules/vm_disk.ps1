@@ -44,13 +44,32 @@ $currentvm = invoke-expression -Command "$pre_cmd "
 if ($null -ne $currentvm ) {
   if ( $currentvm.State -eq "Off" ) {
     if ($state -eq "present") {
+      # Get-VMHardDiskDrive
+      #  [-VM] <VirtualMachine[]>
+      #  [-ControllerLocation <Int32>]
+      #  [-ControllerNumber <Int32>]
+      #  [-ControllerType <ControllerType>]
+      #  [<CommonParameters>]
       $vm = $(GET-VM -Id "$vmid") 
       $cmd = @'
+        Get-VMHardDiskDrive -VM $vm | Where-Object { $_.Path -eq $path}
+'@
+      $output = invoke-expression -Command "$cmd"
+      if ($null -eq $output) { # disk already exists
+        $cmd = "GET-VM -Id '$vmid' -ErrorAction SilentlyContinue | select-object *"
+        $currentvm = invoke-expression -Command "$pre_cmd "
+        $result.output = $currentvm | ConvertTo-Json | ConvertFrom-Json
+        $vm = $(GET-VM -Id "$vmid") 
+        $cmd = @'
             Add-VMHardDiskDrive -VM $vm 
 '@+ "-Path $path"
-      $output = invoke-expression -Command "$cmd"
-      $result.cmd = $cmd
-      $cmd = "GET-VM -Id '$vmid' -ErrorAction SilentlyContinue | select-sobject *"
+        $output = invoke-expression -Command "$cmd"
+        $result.cmd = $cmd
+        $result.changed = $true
+      } else {
+        $result.changed = $false
+      }
+      $cmd = "GET-VM -Id '$vmid' -ErrorAction SilentlyContinue | select-object *"
       $currentvm = invoke-expression -Command "$pre_cmd "
       $result.output = $currentvm | ConvertTo-Json | ConvertFrom-Json
     }
