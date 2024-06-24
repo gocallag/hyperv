@@ -30,8 +30,11 @@
         path: c:\temp\disk-for-gen1.vhd
         state: present
       register: check
-    - debug: msg="{{ check }}"
-    - pause:
+    - name: add same disk to gen 1
+      gocallag.hyperv.vm_disk:   
+        id: '{{ info.output.value[0].Id }}'
+        path: c:\temp\disk-for-gen1.vhd
+        state: present
     - name: remove disk from gen 1
       gocallag.hyperv.vm_disk:   
         id: '{{ info.output.value[0].Id }}'
@@ -59,8 +62,12 @@
         path: c:\temp\disk-for-gen2.vhd
         state: present
       register: check
-    - debug: msg="{{ check }}"
-    - pause:
+    - name: add same disk to gen 2
+      gocallag.hyperv.vm_disk:   
+        id: '{{ info.output.value[0].Id }}'
+        path: c:\temp\disk-for-gen2.vhd
+        state: present
+      register: check
     - name: remove disk from gen 2
       gocallag.hyperv.vm_disk:   
         id: '{{ info.output.value[0].Id }}'
