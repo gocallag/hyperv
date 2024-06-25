@@ -20,21 +20,30 @@ $state = Get-AnsibleParam $params "state" -type "str" -FailIfEmpty $true -emptya
 
 $pre_cmd = "GET-VM -Id '$vmid' -ErrorAction SilentlyContinue | select-object *"
 $currentvm = invoke-expression -Command "$pre_cmd "
-
-
   
 if ($null -ne $currentvm ) {
   if ( $currentvm.State -eq "Off" ) {
     if ($state -eq "present") {
       $vm = $(GET-VM -Id "$vmid") 
       $cmd = @'
-            Add-VMDvdDrive -VM $vm 
-'@+ "-Path $path"
+        Get-VMDvdDrive -VM $vm | Where-Object { $_.Path -eq $path}
+'@
       $output = invoke-expression -Command "$cmd"
-      $result.cmd = $cmd
-      $cmd = "GET-VM -Id '$vmid' -ErrorAction SilentlyContinue | select-sobject *"
-      $currentvm = invoke-expression -Command "$pre_cmd "
-      $result.output = $currentvm | ConvertTo-Json | ConvertFrom-Json
+      if ($null -eq $output) {
+        # dvd does not exist
+        $cmd = @'
+        Add-VMDvdDrive -VM $vm 
+'@+ "-Path $path"
+        $output = invoke-expression -Command "$cmd"
+        $result.cmd = $cmd
+        $result.changed = $true
+        $result.output = $output | ConvertTo-Json | ConvertFrom-Json
+      }
+      else {
+        $result.changed = $false
+        $result.output = $null
+      }
+  
     }
     elseif ( $state -eq "absent") {
       $vm = $(GET-VM -Id "$vmid") 
@@ -64,7 +73,6 @@ if ($null -ne $currentvm ) {
     $result.changed = $false
     Fail-Json $result "VM $vmid needs to be powered off to manage DVD drive"
   }
-
 }
 elseif ($null -ne $currentvm) {
   $result.changed = $false

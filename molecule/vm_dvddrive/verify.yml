@@ -30,7 +30,12 @@
         path: c:\temp\test.iso
         state: present
       register: check
-    - pause:
+    - name: add same iso to gen 1 (idempotent check)
+      gocallag.hyperv.vm_dvddrive:   
+        id: '{{ info.output.value[0].Id }}'
+        path: c:\temp\test.iso
+        state: present
+      register: check
     - name: remove iso from gen 1
       gocallag.hyperv.vm_dvddrive:   
         id: '{{ info.output.value[0].Id }}'
@@ -58,8 +63,12 @@
         path: c:\temp\test.iso
         state: present
       register: check
-    - debug: msg="{{ check }}"
-    - pause:
+    - name: add same iso to gen 2 (idempotent check)
+      gocallag.hyperv.vm_dvddrive:   
+        id: '{{ info.output.value[0].Id }}'
+        path: c:\temp\test.iso
+        state: present
+      register: check
     - name: remove dvddrive from gen 2
       gocallag.hyperv.vm_dvddrive:   
         id: '{{ info.output.value[0].Id }}'
