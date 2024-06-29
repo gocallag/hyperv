@@ -1,0 +1,75 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars:
+    ansible_connection: winrm
+    ansible_port: 5986
+    ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
+    ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
+    ansible_winrm_server_cert_validation: ignore
+  
+  tasks:
+    - name: Get information about VM G1
+      gocallag.hyperv.vm_info:
+        names:
+         - LAB-Test-G1
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Count is defined and info.output.Count == 1
+        - info.output.value is defined
+        - info.output.value[0].Id is defined
+        - info.output.value[0].VMName == "LAB-Test-G1"
+        - info.output.value[0].Generation == 1
+    - name: add memory to gen 1
+      gocallag.hyperv.vm_memory:   
+        id: '{{ info.output.value[0].Id }}'
+        minsize: 64MB
+        maxsize: 2GB
+        startsize: 64MB
+        buffer: 25
+      register: check
+    - name: add same memory to gen 1
+      gocallag.hyperv.vm_memory:  
+        id: '{{ info.output.value[0].Id }}' 
+        minsize: 64MB
+        maxsize: 2GB
+        startsize: 64MB
+        buffer: 25
+      register: check
+
+    - name: Get information about VM G2
+      gocallag.hyperv.vm_info:
+        names:
+         - LAB-Test-G2
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Count is defined and info.output.Count == 1
+        - info.output.value is defined
+        - info.output.value[0].Id is defined
+        - info.output.value[0].VMName == "LAB-Test-G2"
+        - info.output.value[0].Generation == 2
+    - name: add memory to gen 1
+      gocallag.hyperv.vm_memory:   
+        id: '{{ info.output.value[0].Id }}'
+        minsize: 64MB
+        maxsize: 2GB
+        startsize: 64MB
+        buffer: 25
+      register: check
+    - name: add same memory to gen 1
+      gocallag.hyperv.vm_memory:   
+        id: '{{ info.output.value[0].Id }}'
+        minsize: 64MB
+        maxsize: 2GB
+        startsize: 64MB
+        buffer: 25
+      register: check
+
+
