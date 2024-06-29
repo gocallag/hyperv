@@ -49,6 +49,7 @@ This collection has been tested against the following Hyper-V configurations
 ```yaml
 Windows Server:
   - 2025 (Preview)
+  - 2022
 ```
 
 ## Example Playbooks
