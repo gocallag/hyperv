@@ -1,6 +1,6 @@
 ---
 - name: linux-hyperv
-  hosts: weed01
+  hosts: w2022
   vars:
     ansible_connection: winrm
     ansible_port: 5986
