@@ -43,7 +43,7 @@ Function Create_VirtualMachine {
       }
     }
     if ($null -ne $VHDPATH -and $VHDSize) {
-      $cmd = $cmd + " -NewVHDPath $newVHDPath -NewVHDSizeBytes $newVHDSize"
+      $cmd = $cmd + " -NewVHDPath $VHDPath -NewVHDSizeBytes $VHDSize"
     }
     else {
       Fail-Json $result "diskPath does not exist and no diskSize was supplied!"
