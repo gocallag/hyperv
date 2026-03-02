@@ -7,5 +7,5 @@
     ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
     ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
     ansible_winrm_server_cert_validation: ignore
-  
+
   tasks:

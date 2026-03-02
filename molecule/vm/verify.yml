@@ -8,9 +8,8 @@
     ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
     ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
     ansible_winrm_server_cert_validation: ignore
-  
-  tasks:
 
+  tasks:
     - name: Create simple test-VM - this should not create a new vm - ie changed = false
       gocallag.hyperv.vm:
         name: LAB-Test
@@ -18,8 +17,8 @@
       register: info
     - ansible.builtin.assert:
         that:
-        - info is defined
-        - info.changed == false
+          - info is defined
+          - info.changed == false
     - name: Create simple test-VM - this should create a new vm - ie changed = true
       gocallag.hyperv.vm:
         name: LAB-Test
@@ -28,5 +27,5 @@
       register: info
     - ansible.builtin.assert:
         that:
-        - info is defined
-        - info.changed == true
+          - info is defined
+          - info.changed == true

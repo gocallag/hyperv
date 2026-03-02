@@ -8,7 +8,7 @@
     ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
     ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
     ansible_winrm_server_cert_validation: ignore
-  
+
   tasks:
     - name: Create VM LAB-Test G1
       gocallag.hyperv.vm:
@@ -21,14 +21,14 @@
         generation: 2
         state: present
 
-    - gocallag.hyperv.disk:   
-        path: 'c:\temp\disk-for-gen1.vhd'
+    - gocallag.hyperv.disk:
+        path: "c:\\temp\\disk-for-gen1.vhd"
         size: 10
         state: present
       register: info
 
-    - gocallag.hyperv.disk:   
-        path: 'c:\temp\disk-for-gen2.vhd'
+    - gocallag.hyperv.disk:
+        path: "c:\\temp\\disk-for-gen2.vhd"
         size: 10
         state: present
       register: info
