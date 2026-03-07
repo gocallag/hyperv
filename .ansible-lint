@@ -1,0 +1,8 @@
+---
+skip_list:
+  - name[missing]
+  - galaxy[no-changelog]
+  - meta-runtime[unsupported-version]
+  - yaml[line-length]
+exclude_paths:
+  - "**/*.py"

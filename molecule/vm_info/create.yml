@@ -8,9 +8,9 @@
     ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
     ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
     ansible_winrm_server_cert_validation: ignore
-  
+
   tasks:
-    - name: Create VM LAB-Test 
+    - name: Create VM LAB-Test
       gocallag.hyperv.vm:
         name: LAB-Test
         state: present
@@ -18,4 +18,3 @@
       gocallag.hyperv.vm:
         name: LAB-Test
         state: present
-

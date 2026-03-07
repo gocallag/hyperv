@@ -8,48 +8,46 @@
     ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
     ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
     ansible_winrm_server_cert_validation: ignore
-  
+
   tasks:
     - name: Get information about VM
       gocallag.hyperv.vm_info:
         names:
-         - LAB-Test
+          - LAB-Test
       register: info
     - ansible.builtin.assert:
         that:
-        - info is defined
-        - info.output is defined
-        - info.output.Count is defined and info.output.Count == 2
-        - info.output.value is defined
-        - info.output.value[0].Id is defined
-        - info.output.value[1].Id is defined
-        - info.output.value[0].VMName == "LAB-Test"
-        - info.output.value[1].VMName == "LAB-Test"
+          - info is defined
+          - info.output is defined
+          - info.output.Count is defined and info.output.Count == 2
+          - info.output.value is defined
+          - info.output.value[0].Id is defined
+          - info.output.value[1].Id is defined
+          - info.output.value[0].VMName == "LAB-Test"
+          - info.output.value[1].VMName == "LAB-Test"
 
     - name: Collect information about a specific VM, 1st in list
       gocallag.hyperv.vm_info:
-        id: '{{ info.output.value[0].Id }}'
+        id: "{{ info.output.value[0].Id }}"
       register: info
     - ansible.builtin.assert:
         that:
-        - info is defined
-        - info.output is defined
-        - info.output.value is defined
-        - info.output.value[0].Id is defined
-        - info.output.value[0].VMName == "LAB-Test"
+          - info is defined
+          - info.output is defined
+          - info.output.value is defined
+          - info.output.value[0].Id is defined
+          - info.output.value[0].VMName == "LAB-Test"
 
     - name: Get information about the VM called LAB-Test that is 'Running' (should be none)
       gocallag.hyperv.vm_info:
         names:
-         - LAB-Test
-        power_state: 'Running'
+          - LAB-Test
+        power_state: "Running"
       register: info
     - ansible.builtin.assert:
         that:
-        - info is defined
-        - info.output is defined
-        - info.output.Count is defined and info.output.Count == 0
-        - info.output.value is defined
-        - info.output.value | length == 0
- 
-
+          - info is defined
+          - info.output is defined
+          - info.output.Count is defined and info.output.Count == 0
+          - info.output.value is defined
+          - info.output.value | length == 0
