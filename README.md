@@ -65,6 +65,7 @@ Working functional playbook examples can be found in the **[`molecule/`](https:/
 | **[`delete vm`](https://github.com/gocallag/hyperv/blob/main/molecule/vm/cleanup.yml)** | Delete a Hyper-V VM |
 | **[`get vm info`](https://github.com/gocallag/hyperv/blob/main/molecule/vm_info/converge.yml)** | Get information about a Hyper-V VM |
 | **[`power on/off vm`](https://github.com/gocallag/hyperv/blob/main/molecule/vm_power/verify.yml)** | Power On/Off VM |
+| **[`create/delete vm checkpoint`](https://github.com/gocallag/hyperv/blob/main/molecule/vm_checkpoint/verify.yml)** | Create/Delete VM Checkpoints (Standard, Production, ProductionOnly) |
 
 
 ## Tesing with Molecule

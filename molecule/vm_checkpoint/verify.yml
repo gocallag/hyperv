@@ -1,0 +1,128 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars:
+    ansible_connection: winrm
+    ansible_port: 5986
+    ansible_user: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_USERID')}}"
+    ansible_password: "{{ lookup('ansible.builtin.env', 'INSTANCE_TESTHOST_PASSWORD')}}"
+    ansible_winrm_server_cert_validation: ignore
+    checkpoint_suffix: "{{ lookup('ansible.builtin.pipe', 'date +%s') }}"
+    checkpoint_name_g1: "test-checkpoint-g1-{{ checkpoint_suffix }}"
+    checkpoint_name_g2: "test-checkpoint-g2-{{ checkpoint_suffix }}"
+  
+  tasks:
+    # ---------- Gen 1 VM checkpoint tests ----------
+    - name: Get information about VM G1
+      gocallag.hyperv.vm_info:
+        names:
+         - LAB-Test-G1
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Count is defined and info.output.Count == 1
+        - info.output.value is defined
+        - info.output.value[0].VMName == "LAB-Test-G1"
+        - info.output.value[0].Generation == 1
+
+    - name: Create a standard checkpoint on Gen 1
+      gocallag.hyperv.vm_checkpoint:
+        vm_name: LAB-Test-G1
+        name: "{{ checkpoint_name_g1 }}"
+        checkpoint_type: Standard
+        state: present
+      register: check
+    - ansible.builtin.assert:
+        that:
+          - check.changed == true
+
+    - name: Create same checkpoint again (idempotency)
+      gocallag.hyperv.vm_checkpoint:
+        vm_name: LAB-Test-G1
+        name: "{{ checkpoint_name_g1 }}"
+        checkpoint_type: Standard
+        state: present
+      register: check
+    - ansible.builtin.assert:
+        that:
+          - check.changed == false
+
+    - name: Remove checkpoint on Gen 1
+      gocallag.hyperv.vm_checkpoint:
+        vm_name: LAB-Test-G1
+        name: "{{ checkpoint_name_g1 }}"
+        state: absent
+      register: check
+    - ansible.builtin.assert:
+        that:
+          - check.changed == true
+
+    - name: Remove checkpoint again (idempotency)
+      gocallag.hyperv.vm_checkpoint:
+        vm_name: LAB-Test-G1
+        name: "{{ checkpoint_name_g1 }}"
+        state: absent
+      register: check
+    - ansible.builtin.assert:
+        that:
+          - check.changed == false
+
+    # ---------- Gen 2 VM checkpoint tests ----------
+    - name: Get information about VM G2
+      gocallag.hyperv.vm_info:
+        names:
+         - LAB-Test-G2
+      register: info
+    - ansible.builtin.assert:
+        that:
+        - info is defined
+        - info.output is defined
+        - info.output.Count is defined and info.output.Count == 1
+        - info.output.value is defined
+        - info.output.value[0].VMName == "LAB-Test-G2"
+        - info.output.value[0].Generation == 2
+
+    - name: Create a production checkpoint on Gen 2
+      gocallag.hyperv.vm_checkpoint:
+        vm_name: LAB-Test-G2
+        name: "{{ checkpoint_name_g2 }}"
+        checkpoint_type: Production
+        state: present
+      register: check
+    - ansible.builtin.assert:
+        that:
+          - check.changed == true
+
+    - name: Create same checkpoint again (idempotency)
+      gocallag.hyperv.vm_checkpoint:
+        vm_name: LAB-Test-G2
+        name: "{{ checkpoint_name_g2 }}"
+        checkpoint_type: Production
+        state: present
+      register: check
+    - ansible.builtin.assert:
+        that:
+          - check.changed == false
+
+    - name: Remove checkpoint on Gen 2
+      gocallag.hyperv.vm_checkpoint:
+        vm_name: LAB-Test-G2
+        name: "{{ checkpoint_name_g2 }}"
+        state: absent
+      register: check
+    - ansible.builtin.assert:
+        that:
+          - check.changed == true
+
+    - name: Remove checkpoint again (idempotency)
+      gocallag.hyperv.vm_checkpoint:
+        vm_name: LAB-Test-G2
+        name: "{{ checkpoint_name_g2 }}"
+        state: absent
+      register: check
+    - ansible.builtin.assert:
+        that:
+          - check.changed == false
