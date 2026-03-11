@@ -9,6 +9,8 @@ This collection provides a range of modules for managing Hyper-V hosts and VM's 
 
 **Note:** This collection is still in active development. There may be unidentified issues and various variables may change as development continues.
 
+**Note:** This collection is only for managing hyper-v directly. It does not support System Center managed hypervisors. (SVCMM)
+
 ## Requirements
 
 ### Ansible
